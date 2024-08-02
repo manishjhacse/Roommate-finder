@@ -7,7 +7,7 @@ import { changeLoggedIn } from "../store/loginSlice";
 import { Link } from "react-router-dom";
 import LocationSelector from "../components/LocationSelector";
 import FilterOptions from "../components/FilterOptions";
-
+import { GoHeartFill } from "react-icons/go";
 export default function HomePage() {
   const rooms = useSelector((state) => state.rooms);
   const [roomsToShow, setRoomsToShow] = useState([])
@@ -45,6 +45,8 @@ export default function HomePage() {
         <p>No Room Available</p>
         <Link className=" underline" to="/addroom">Post Room</Link>
       </div>}
+      <p className="py-10"></p>
+      <p  className="fixed w-full justify-center text-white bottom-0 flex items-center gap-1 left-1/2 -translate-x-1/2">Made with <GoHeartFill className="text-red-500" /> by <a className="text-green-500 font-bold" href="https://manishkumarjha.tech" target="_blank">Manish</a></p>
       </div>
     );
   }

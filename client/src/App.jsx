@@ -15,7 +15,6 @@ import { addRoom } from "./store/RoomSlice";
 import axios from "axios";
 import ChatPage from "./pages/ChatPage";
 
-import { GoHeartFill } from "react-icons/go";
 function App() {
   const dispatch = useDispatch();
   const url = import.meta.env.VITE_BASE_URL;
@@ -74,8 +73,7 @@ function App() {
           }
         />
       </Routes>
-      <p className="py-10"></p>
-      <p  className="fixed w-full justify-center text-white bottom-0 flex items-center gap-1 left-1/2 -translate-x-1/2">Made with <GoHeartFill className="text-red-500" /> by <a className="text-green-500 font-bold" href="https://manishkumarjha.tech" target="_blank">Manish</a></p>
+     
     </div>
   );
 }

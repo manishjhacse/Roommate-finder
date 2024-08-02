@@ -9,7 +9,7 @@ export default function LoginPage() {
     return <Navigate to="/" />;
   } else {
     return (
-      <div className="bg-gradient-to-r px-3 from-fuchsia-600 to-purple-600 flex justify-center items-center min-h-screen overflow-hidden">
+      <div className="bg-gradient-to-r px-3 from-fuchsia-600 to-purple-600 flex justify-center items-center h-full overflow-hidden">
         <div className="overflow-hidden bg-black w-[300px]  px-10 py-5 bg-opacity-40 backdrop-blur-sm rounded-tl-3xl rounded-tr-lg  rounded-br-3xl rounded-bl-lg">
           <LoginForm />
         </div>
