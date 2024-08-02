@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 const { User } = require("./userModel");
-
+const { Chat } = require("./chatModel");
 const roomSchema = new mongoose.Schema({
-  user: { userID:{type: mongoose.Schema.Types.ObjectId, ref: "User"},userName:{type:String} },
+  user: {
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    userName: { type: String },
+  },
   isAvailable: { type: Boolean, default: true },
   images: { type: String },
   description: { type: String },
@@ -14,10 +17,11 @@ const roomSchema = new mongoose.Schema({
   },
   roommatePreferences: {
     gender: { type: String, enum: ["Male", "Female", "Any"] },
-    smoker: { type: String, enum: ["Allowed", "Not allowed"]},
+    smoker: { type: String, enum: ["Allowed", "Not allowed"] },
   },
   price: { type: Number, required: true },
   postedDate: { type: Date, default: Date.now },
+  chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
 });
 
 const Room = mongoose.model("Room", roomSchema);

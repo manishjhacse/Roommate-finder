@@ -200,7 +200,7 @@ exports.login = async (req, res) => {
     };
     if (await bcrypt.compare(password, user.password)) {
       let token = await jwt.sign(payload, process.env.SECRETCODE, {
-        expiresIn: "2h",
+        // expiresIn: "2h",
       });
       user.password = undefined;
       const options = {

@@ -14,6 +14,7 @@ import NavBar from "./components/NavBar";
 import MyRooms from "./pages/MyRooms";
 import { addRoom } from "./store/RoomSlice";
 import axios from "axios";
+import ChatPage from "./pages/ChatPage";
 function App() {
   const dispatch = useDispatch();
   const url = import.meta.env.VITE_BASE_URL;
@@ -63,7 +64,16 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/chat/:chatId/:userId"
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+      <p className="py-10"></p>
     </div>
   );
 }
