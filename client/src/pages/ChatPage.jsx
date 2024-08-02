@@ -104,12 +104,12 @@ export default function ChatPage() {
   }, [chats]);
 
   return (
-    <div className="flex justify-center items-center h-full w-full">
-      <div className=" bg-gray-900 md:bg-opacity-80 text-white px-3 overflow-hidden md:py-1 w-screen sm:w-[300px] h-[95%] pt-4 sm:h-[500px] flex flex-col items-center rounded-md">
+    <div className="flex justify-center h-[600px] items-center  w-full">
+      <div className=" bg-gray-900 md:bg-opacity-80 text-white px-3 overflow-hidden md:py-1 w-screen sm:w-[300px] h-full pt-4 flex flex-col items-center rounded-md">
         <h1 className="uppercase relative flex items-center gap-2 font-bold text-base">
           {`Chagging with ${chattingWith}`}
         </h1>
-        <div className="w-full hideScrollBar overflow-y-scroll hide-scrollbar py-3 h-[90%] md:h-[87%]">
+        <div className="w-full hideScrollBar overflow-y-scroll hide-scrollbar py-3 h-full md:h-[87%]">
           {chats.map((messageContent, index) => {
             const isUserMessage = loggedInUser._id === messageContent.senderId;
             return (

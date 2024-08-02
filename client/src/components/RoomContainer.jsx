@@ -3,6 +3,7 @@ import { IoChatbubbleEllipses } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { FaHeart } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { removeRoom } from "../store/RoomSlice";
@@ -53,11 +54,11 @@ export default function RoomContainer({ room }) {
     }
     setChatMessage("Please wait...");
     let chatId = "";
-    let chattingWith="";
+    let chattingWith = "";
     try {
       const roomId = room?._id;
-      console.log(room)
-      const ownerName=room?.user?.userName;
+      console.log(room);
+      const ownerName = room?.user?.userName;
       const ownerId = room?.user?.userID;
       if (isUser) {
         try {
@@ -81,12 +82,12 @@ export default function RoomContainer({ room }) {
         withCredentials: true,
       });
       chatId = res?.data?.chatId;
-      chattingWith=ownerName;
+      chattingWith = ownerName;
       if (!res?.data?.chatExist) {
         try {
           const res = await axios.post(
             `${url}/createnewchat`,
-            { roomId, ownerId,ownerName },
+            { roomId, ownerId, ownerName },
             {
               withCredentials: true,
             }
@@ -98,9 +99,9 @@ export default function RoomContainer({ room }) {
       }
       try {
         // socket.emit("startChat", { chatId });
-        console.log(chattingWith)
+        console.log(chattingWith);
         navigate(`/chat/${chatId}/${loggedInUser?._id}`, {
-          state: { name: loggedInUser?.name,chattingWith:chattingWith },
+          state: { name: loggedInUser?.name, chattingWith: chattingWith },
         });
         // toast.success("Welcome to the Room");
       } catch (err) {
@@ -113,20 +114,20 @@ export default function RoomContainer({ room }) {
   };
 
   const handleChatByUser = async (list) => {
-    const interestedId=list.interestedId;
-    const chattingWith=list.interestedName
+    const interestedId = list.interestedId;
+    const chattingWith = list.interestedName;
     try {
       const roomId = room?._id;
       const ownerId = room?.user?.userID;
-      let chatId="";
+      let chatId = "";
       try {
         const res = await axios.get(`${url}/getchatid`, {
-          params: { roomId, ownerId,interestedId },
+          params: { roomId, ownerId, interestedId },
           withCredentials: true,
         });
 
         chatId = res?.data?.chatId;
-        console.log(chatId)
+        console.log(chatId);
       } catch (err) {
         console.log(err);
         return;
@@ -134,7 +135,7 @@ export default function RoomContainer({ room }) {
       try {
         // socket.emit("startChat", { chatId });
         navigate(`/chat/${chatId}/${loggedInUser?._id}`, {
-          state: { name: loggedInUser?.name,chattingWith:chattingWith },
+          state: { name: loggedInUser?.name, chattingWith: chattingWith },
         });
         // toast.success("Welcome to the Room");
       } catch (err) {
@@ -232,11 +233,11 @@ export default function RoomContainer({ room }) {
       </div>
       {/* chatlist */}
       {showChatList && (
-        <div className="bg-black absolute w-[200px] right-0 top-0 px-3 py-2 overflow-auto rounded-md max-h-full z-20">
+        <div className="bg-black h-full absolute w-[200px] right-0 top-0 px-3 py-3 overflow-auto rounded-md max-h-full z-20">
           {chatList.map((list) => {
             return (
               <div
-                className="cursor-pointer"
+                className="cursor-pointer uppercase"
                 onClick={() => handleChatByUser(list)}
                 key={list.interestedId}
               >
@@ -244,6 +245,9 @@ export default function RoomContainer({ room }) {
               </div>
             );
           })}
+          <div onClick={()=>setShowChatList(false)} className="top-2 cursor-pointer text-xl absolute right-2">
+            <MdCancel />
+          </div>
         </div>
       )}
       {/* chatlist end */}
