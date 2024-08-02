@@ -104,65 +104,62 @@ export default function ChatPage() {
   }, [chats]);
 
   return (
-    <div className="flex justify-center h-screen md:h-[600px] items-center  w-full">
-      <div className=" bg-gray-900 md:bg-opacity-80 text-white px-3 overflow-hidden md:py-1 w-screen sm:w-[300px] h-full pt-4 flex flex-col items-center rounded-md">
-        <h1 className="uppercase relative flex items-center gap-2 font-bold text-base">
-          {`Chagging with ${chattingWith}`}
-        </h1>
-        <div className="w-full hideScrollBar overflow-y-scroll hide-scrollbar py-3 h-full md:h-[87%]">
-          {chats.map((messageContent, index) => {
-            const isUserMessage = loggedInUser._id === messageContent.senderId;
-            return (
+    <div className="flex justify-center items-center w-full">
+    <div className="bg-black bg-opacity-50 text-white px-3 py-4 overflow-hidden rounded-md w-full sm:w-[300px] md:w-[400px] lg:w-[500px] max-h-full flex flex-col shadow-lg h-[85vh] sm:h-[70vh] md:h-[75vh]">
+      <h1 className="uppercase text-center  gap-2 font-bold text-base mb-4">
+        {`Chatting with ${chattingWith}`}
+      </h1>
+      <div className="flex-grow w-full hideScrollBar overflow-y-scroll py-3">
+        {chats.map((messageContent, index) => {
+          const isUserMessage = loggedInUser._id === messageContent.senderId;
+          return (
+            <div
+              key={index}
+              className={`flex flex-col ${
+                isUserMessage ? "items-end" : "items-start"
+              } mb-4`}
+            >
               <div
-                key={index}
-                className={`flex flex-col ${
-                  isUserMessage ? "items-end" : "items-start"
-                } mb-4`}
+                className={`rounded-lg py-1 px-2 max-w-xs sm:max-w-sm ${
+                  isUserMessage
+                    ? "bg-green-500 text-white"
+                    : "bg-[#1E40AF] text-white"
+                }`}
               >
-                <div
-                  style={{
-                    maxWidth: "200px",
-                    overflow: "hidden",
-                    wordWrap: "break-word",
-                  }}
-                  className={`rounded-lg py-1 px-2 ${
-                    isUserMessage
-                      ? "bg-green-500 text-white"
-                      : "bg-[#1E40AF] text-white"
-                  }`}
-                >
-                  <p className="text-sm">{messageContent.message}</p>
-                </div>
-                <div className="text-[10px] text-slate-500">
-                  <span className="mr-1">{messageContent.time}</span>
-                  <span>{messageContent.name}</span>
-                </div>
+                <p className="text-sm break-words">{messageContent.message}</p>
               </div>
-            );
-          })}
-          <div ref={messagesEndRef} />
-        </div>
-        <div className="relative px border border-[#9CA3AF] my-1 rounded-full flex w-full justify-start">
-          <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                handleSend();
-              }
-            }}
-            className="w-[90%] bg-transparent outline-none placeholder:text-slate-400 py-2 px-2 text-white"
-            type="text"
-            placeholder="Message..."
-          />
-          <button
-            onClick={handleSend}
-            className="px-1 py-1 text-blue-500 font-bold rounded-full absolute text-2xl right-1 top-1/2 -translate-y-1/2"
-          >
-            <IoIosSend />
-          </button>
-        </div>
+              <div className="text-[10px] text-slate-500">
+                <span className="mr-1">{messageContent.time}</span>
+                <span>{messageContent.name}</span>
+              </div>
+            </div>
+          );
+        })}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="relative border border-[#9CA3AF] rounded-full flex items-center mt-3">
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleSend();
+            }
+          }}
+          className="w-full bg-transparent outline-none placeholder:text-slate-400 py-2 px-3 text-white"
+          type="text"
+          placeholder="Message..."
+        />
+        <button
+          onClick={handleSend}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 font-bold rounded-full text-2xl"
+        >
+          <IoIosSend />
+        </button>
       </div>
     </div>
+  </div>
+  
+  
   );
 }
