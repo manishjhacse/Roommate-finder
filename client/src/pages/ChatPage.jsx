@@ -104,7 +104,7 @@ export default function ChatPage() {
   }, [chats]);
 
   return (
-    <div className="flex justify-center h-[600px] items-center  w-full">
+    <div className="flex justify-center h-screen md:h-[600px] items-center  w-full">
       <div className=" bg-gray-900 md:bg-opacity-80 text-white px-3 overflow-hidden md:py-1 w-screen sm:w-[300px] h-full pt-4 flex flex-col items-center rounded-md">
         <h1 className="uppercase relative flex items-center gap-2 font-bold text-base">
           {`Chagging with ${chattingWith}`}
