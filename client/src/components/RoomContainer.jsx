@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 import { removeRoom } from "../store/RoomSlice";
 import io from "socket.io-client";
 export default function RoomContainer({ room }) {
@@ -99,11 +100,10 @@ export default function RoomContainer({ room }) {
       }
       try {
         // socket.emit("startChat", { chatId });
-        console.log(chattingWith);
         navigate(`/chat/${chatId}/${loggedInUser?._id}`, {
           state: { name: loggedInUser?.name, chattingWith: chattingWith },
         });
-        // toast.success("Welcome to the Room");
+        toast.success("Start chatting");
       } catch (err) {
         console.log(err);
       }
@@ -127,7 +127,7 @@ export default function RoomContainer({ room }) {
         });
 
         chatId = res?.data?.chatId;
-        console.log(chatId);
+        toast.success("Start chatting")
       } catch (err) {
         console.log(err);
         return;

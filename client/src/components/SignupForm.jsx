@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
 export default function SignupForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,7 +14,6 @@ export default function SignupForm() {
   const [optSent, setOptSent] = useState(false);
   const [buttonText, setButtonText] = useState("Sign Up");
   const [optText, setOptText] = useState("Send OTP");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,23 +25,18 @@ export default function SignupForm() {
       const res = await axios.post(`${url}/signup`, formData, {
         withCredentials: true,
       });
+      toast.success("Account created")
       navigate("/login");
     } catch (err) {
-      setMessage(err.response.data.message);
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.error(err.response.data.message);
+      
     }
     setButtonText("Sign up");
   }
   async function handleSubmit(e) {
     e.preventDefault();
     if (formData.password != formData.confirmPassword) {
-      setMessage("Password & Confirm password does not match");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
-      return;
+      toast.error("Password & Confirm password does not match");
     }
     await signup();
   }
@@ -54,38 +48,26 @@ export default function SignupForm() {
       formData.confirmPassword == "" ||
       formData.mobile == ""
     ) {
-      setMessage("please fill all the details");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      toast.error("please fill all the details");
       return;
     }
-    setMessage("Sending OTP...");
-
     if (formData.password != formData.confirmPassword) {
-      setMessage("Password & Confirm password does not match");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.error("Password & Confirm password does not match");
       return;
     }
     const url = import.meta.env.VITE_BASE_URL;
+    toast("Sending OTP")
     try {
       const res = await axios.post(`${url}/sendotp`, formData, {
         withCredentials: true,
       });
       setOptSent(true);
       setOptText("Resend OTP");
-      setMessage("OTP sent");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.success("OTP sent");
     } catch (err) {
-      setMessage(err.response.data.message);
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.error(err.response.data.message);
     }
+
   }
   return (
     <div>
@@ -168,9 +150,6 @@ export default function SignupForm() {
             />
           </div>
         )}
-        <p className="w-full text-start text-xs text-red-500 font-bold">
-          {message}
-        </p>
         <div className="flex justify-between gap-3">
           <button
             onClick={handleOTP}

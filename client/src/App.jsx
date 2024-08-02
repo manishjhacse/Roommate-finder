@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import NewRoom from "./pages/NewRoom";
 import HomePage from "./pages/HomePage";
+import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLoggedIn } from "./store/loginSlice";
 import PrivateRoute from "./components/PrivateRoute";
@@ -73,7 +74,7 @@ function App() {
           }
         />
       </Routes>
-     
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 }

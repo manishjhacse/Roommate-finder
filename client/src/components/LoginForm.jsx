@@ -4,12 +4,11 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { changeLoggedIn } from "../store/loginSlice";
 import { changeLoggedInUser } from "../store/userSlice";
-
+import { toast } from "react-hot-toast";
 export default function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [message, setMessage] = useState("");
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
@@ -25,25 +24,21 @@ export default function LoginForm() {
       localStorage.setItem("token", res.data.token);
       dispatch(changeLoggedIn(true));
       dispatch(changeLoggedInUser(user));
+      toast.success("logged in")
       navigate("/");
     } catch (err) {
       console.log(err);
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
-      setMessage(err.response.data.message);
+      toast.error(err.response.data.message);
     }
   }
   async function handleLogin(e) {
     e.preventDefault();
     if (formData.email == "" || formData.password == "") {
-      setMessage("please enter email & password");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      toast.error("Enter all details")
       return;
     }
     await login();
+   
   }
   return (
     <form
@@ -74,9 +69,6 @@ export default function LoginForm() {
           onChange={handleChange}
         />
       </div>
-      <p className="w-full text-start text-xs text-red-500 font-bold">
-        {message}
-      </p>
       <button className="px-2 py-1.5 rounded-md outline-none border text-white border-black hover:bg-purple-800 hover:border-purple-800 transition-all duration-200">
         Login
       </button>
