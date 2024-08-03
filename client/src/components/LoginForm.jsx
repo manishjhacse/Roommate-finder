@@ -24,7 +24,7 @@ export default function LoginForm() {
       localStorage.setItem("token", res.data.token);
       dispatch(changeLoggedIn(true));
       dispatch(changeLoggedInUser(user));
-      toast.success("logged in")
+      toast.success("Logged in")
       navigate("/");
     } catch (err) {
       console.log(err);

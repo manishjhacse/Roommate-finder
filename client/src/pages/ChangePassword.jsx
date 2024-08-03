@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import NewPassword from "../components/NewPassword";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
 export default function ChangePassword() {
   const [showFull, setShowFull] = useState(false);
   const [optSent, setOptSent] = useState(false);
@@ -22,13 +22,10 @@ export default function ChangePassword() {
   async function handleOTP(e) {
     e.preventDefault();
     if (formData.email == "") {
-      setMessage("please fill all the details");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      toast.error("please fill all the details");
       return;
     }
-    setMessage("Sending OTP...");
+    toast("Sending OTP...");
     const url = import.meta.env.VITE_BASE_URL;
     try {
       const res = await axios.post(`${url}/sendotptochangepassword`, formData, {
@@ -36,24 +33,15 @@ export default function ChangePassword() {
       });
       setOptSent(true);
       setOptText("Resend OTP");
-      setMessage("OTP sent");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.success("OTP sent");
     } catch (err) {
-      setMessage(err.response.data.message);
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
+      toast.error(err.response.data.message);
     }
   }
   async function handleChangePassword(e) {
     e.preventDefault();
     if (formData.password != formData.confirmPassword) {
-      setMessage("Passwords do not match");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      toast.error("Passwords do not match");
       return;
     }
     setMessage("Changing Password");
@@ -62,13 +50,13 @@ export default function ChangePassword() {
       const res = await axios.post(`${url}/changepassword`, formData, {
         withCredentials: true,
       });
-      setMessage("Password Changed");
+      toast.success("Password Changed");
       setTimeout(() => {
         setMessage("");
         navigate("/login");
       }, 3000);
     } catch (err) {
-      setMessage(err.response.data.message);
+      toast.error(err.response.data.message);
       setTimeout(() => {
         setMessage("");
       }, 3000);

@@ -18,6 +18,7 @@ import ChatPage from "./pages/ChatPage";
 
 function App() {
   const dispatch = useDispatch();
+  const [backendConnected, SetbackendConnected] = useState(false);
   const url = import.meta.env.VITE_BASE_URL;
   const isloggedinFunction = async () => {
     const token = localStorage.getItem("token");
@@ -29,51 +30,62 @@ function App() {
   };
   const getRooms = async () => {
     try {
+      SetbackendConnected(false);
       const res = await axios.get(`${url}/getAllRooms`);
       dispatch(addRoom(res.data.rooms));
+      SetbackendConnected(true);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     isloggedinFunction();
-    getRooms()
+    getRooms();
   }, []);
   return (
-    <div className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white min-h-screen min-w-screen">
+    <div className="bg-gradient-to-r relative from-fuchsia-600 to-purple-600 text-white min-h-screen min-w-screen">
       <NavBar />
       <p className="py-10"></p>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/changepassword" element={<ChangePassword />} />
+      {backendConnected ? (
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
 
-        <Route
-          path="/addroom"
-          element={
-            <PrivateRoute>
-              <NewRoom />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/myrooms"
-          element={
-            <PrivateRoute>
-              <MyRooms />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/chat/:chatId/:userId"
-          element={
-            <PrivateRoute>
-              <ChatPage />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+          <Route
+            path="/addroom"
+            element={
+              <PrivateRoute>
+                <NewRoom />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/myrooms"
+            element={
+              <PrivateRoute>
+                <MyRooms />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/chat/:chatId/:userId"
+            element={
+              <PrivateRoute>
+                <ChatPage />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      ) : (
+        <div className="absolute rounded-md px-5 gap-2 top-1/2 left-1/2 -translate-x-1/2 z-50 flex justify-center flex-col items-center -translate-y-1/2">
+
+          <p className="w-20 h-20 border-l-white border-l-[3px] animate-spin rounded-full"></p>
+
+          <p className="font-bold">Loading...</p>
+        </div>
+      )}
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
