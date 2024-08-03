@@ -29,7 +29,7 @@ export default function MyRooms() {
           </Link>
         </div>
       )}
-      {room?.length > 0 &&
+      {rooms?.length > 0 &&
         rooms.map((room) => {
           return <RoomContainer key={room._id} room={room} />;
         })}
