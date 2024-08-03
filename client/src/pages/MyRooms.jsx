@@ -2,19 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import RoomContainer from "../components/RoomContainer";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function MyRooms() {
-  const [rooms, setRooms] = useState([]);
+  const [roomsToShow, setRoomsToShow] = useState([]);
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const loggedIn = useSelector((store) => store.loggedIn);
+  const rooms = useSelector((state) => state.rooms);
   const url = import.meta.env.VITE_BASE_URL;
-  const getRooms = async () => {
-    try {
-      const res = await axios.get(`${url}/getUserRooms`);
-      setRooms(res.data.rooms);
-    } catch (err) {
-      setRooms([]);
-    }
+  const getRooms = () => {
+    const tempRooms = rooms.fiter(
+      (room) => loggedInUser?._id === room?.user?.userID
+    );
+    setRoomsToShow(tempRooms);
   };
   useEffect(() => {
     getRooms();
